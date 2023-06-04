@@ -1,14 +1,32 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios"
+import { server } from "../main";
+import toast from "react-hot-toast"
 
 const Register = () => {
-  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const registerHandler = (e) => {
+  const registerHandler =async (e) => {
     e.preventDefault(); // to prevent refreshing of the pafe
-    console.log(name,email,password)
+    try{
+      console.log(username,email,password)
+    const {data} =await axios.post(`${server}/users/register`,{
+      username,email,password
+    },{
+      headers:{
+        "Content-Type":"application/json"
+      },
+      withCredentials:true,
+    });
+    toast.success(data.message);
+    }
+    catch(error){
+      toast.error("Some error")
+      console.log(error)
+    }
   };
   return (
     <div>
@@ -16,8 +34,8 @@ const Register = () => {
       <section>
         <form onSubmit={registerHandler}>
           <input
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             type="text"
             placeholder="name"
             required
