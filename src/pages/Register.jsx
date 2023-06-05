@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios"
 import { server } from "../main";
 import toast from "react-hot-toast"
+import { Context } from "../main";
 
 const Register = () => {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {isAuthenticated,setIsAuthenticated} = useContext(Context)
 
   const registerHandler =async (e) => {
     e.preventDefault(); // to prevent refreshing of the pafe
@@ -22,10 +24,12 @@ const Register = () => {
       withCredentials:true,
     });
     toast.success(data.message);
-    }
-    catch(error){
-      toast.error("Some error")
-      console.log(error)
+    setIsAuthenticated(true);
+  }
+  catch(error){
+    toast.error("Some error")
+    console.log(error)
+    setIsAuthenticated(false);
     }
   };
   return (
