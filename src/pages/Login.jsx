@@ -1,12 +1,13 @@
-import React ,{useState} from 'react'
-import { Link } from 'react-router-dom'
+import React ,{useContext, useState} from 'react'
+import { Link, Navigate } from 'react-router-dom'
 import axios from "axios"
-import { server } from "../main";
+import { Context, server } from "../main";
 import toast from "react-hot-toast"
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {isAuthenticated,setIsAuthenticated} = useContext(Context)
 
   const loginHandler =async (e) => {
     e.preventDefault(); // to prevent refreshing of the pafe
@@ -21,13 +22,16 @@ const Login = () => {
       withCredentials:true,
     });
     toast.success(data.message);
+    setIsAuthenticated(true);
     }
     catch(error){
       toast.error("Some error")
       console.log(error)
+      setIsAuthenticated(false);
     }
   };
-
+  // if User is authenticated
+  if(isAuthenticated) return <Navigate to="/"/>
   return (
     <div>
       Login
