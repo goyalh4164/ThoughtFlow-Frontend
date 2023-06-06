@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Context, server } from '../main';
 import axios from 'axios';
 import Loader from '../components/Loader';
+import { Link } from 'react-router-dom';
 
 const Account = () => {
   const { isAuthenticated ,loading ,setLoading} = useContext(Context);
@@ -35,7 +36,7 @@ const Account = () => {
   return <div>
   My Account
   {
-    loading ? <Loader/> : <div>{username} and {email}</div>
+    loading ? <Loader/> : <div> <div>{username} and {email} </div> <div><Link to="/updateProfile">Update Profile</Link><button>Delete Profile</button></div></div> 
   }
   </div>;
 };
