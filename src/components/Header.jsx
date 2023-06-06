@@ -13,7 +13,7 @@ const Header = () => {
 
   const logoutHandler =async (e) => {
     try{
-      const {data} =await axios.post(`${server}/users/logout`,
+      const {data} =await axios.post(`${server}/users/logout`,{},
       {
       withCredentials:true,
     }
